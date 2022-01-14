@@ -1,12 +1,13 @@
-FROM golang:1.14 as builder
+FROM golang:1.17.0-alpine3.13 AS build
+RUN apk --no-cache add build-base
+WORKDIR /src
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+COPY . .
+RUN go build -o app
 
-ADD . /go/src/github.com/justwatchcom/github-releases-notifier
-WORKDIR /go/src/github.com/justwatchcom/github-releases-notifier
-
-RUN make build
-
-FROM alpine:3.11
-RUN apk --no-cache add ca-certificates
-
-COPY --from=builder /go/src/github.com/justwatchcom/github-releases-notifier /bin/
-ENTRYPOINT [ "/bin/github-releases-notifier" ]
+FROM alpine:3.13
+RUN apk --no-cache add tzdata ca-certificates && rm -rf /var/cache/apk/*
+COPY --from=build /src/app /usr/local/bin/github-releases-notifier
+ENTRYPOINT /bin/github-releases-notifier
