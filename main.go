@@ -22,6 +22,7 @@ type Config struct {
 	Repositories    []string      `arg:"-r,separate"`
 	SlackHook       string        `arg:"env:SLACK_HOOK"`
 	IgnoreNonstable bool          `arg:"env:IGNORE_NONSTABLE"`
+	PersistenceFile string        `arg:"env:PERSISTENCE_FILE"`
 }
 
 // Token returns an oauth2 token or an error.
@@ -33,7 +34,7 @@ func main() {
 	_ = godotenv.Load()
 
 	c := Config{
-		Interval: time.Hour,
+		Interval: time.Minute,
 		LogLevel: "info",
 	}
 	arg.MustParse(&c)
@@ -64,8 +65,9 @@ func main() {
 	tokenSource := oauth2.StaticTokenSource(c.Token())
 	client := oauth2.NewClient(context.Background(), tokenSource)
 	checker := &Checker{
-		logger: logger,
-		client: githubql.NewClient(client),
+		logger:          logger,
+		persistenceFile: c.PersistenceFile,
+		client:          githubql.NewClient(client),
 	}
 
 	// TODO: releases := make(chan Repository, len(c.Repositories))

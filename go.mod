@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/alexflint/go-arg v1.4.2
 	github.com/go-kit/kit v0.12.0
+	github.com/go-kit/log v0.2.0
 	github.com/joho/godotenv v1.4.0
 	github.com/shurcooL/githubql v0.0.0-20220106005112-0707a5a90543
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8
@@ -12,7 +13,6 @@ require (
 
 require (
 	github.com/alexflint/go-scalar v1.0.0 // indirect
-	github.com/go-kit/log v0.2.0 // indirect
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect

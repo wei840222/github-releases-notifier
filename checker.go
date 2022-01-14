@@ -2,27 +2,33 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"strings"
 	"time"
 
-	"github.com/go-kit/kit/log"
-	"github.com/go-kit/kit/log/level"
+	"github.com/go-kit/log"
+	"github.com/go-kit/log/level"
 	githubql "github.com/shurcooL/githubql"
 )
 
 // Checker has a githubql client to run queries and also knows about
 // the current repositories releases to compare against.
 type Checker struct {
-	logger   log.Logger
-	client   *githubql.Client
-	releases map[string]Repository
+	logger          log.Logger
+	client          *githubql.Client
+	persistenceFile string
+	releases        map[string]Repository
 }
 
 // Run the queries and comparisons for the given repositories in a given interval.
 func (c *Checker) Run(interval time.Duration, repositories []string, releases chan<- Repository) {
 	if c.releases == nil {
 		c.releases = make(map[string]Repository)
+	}
+	if c.persistenceFile != "" {
+		c.loadPersistenceFile()
 	}
 
 	for {
@@ -64,6 +70,14 @@ func (c *Checker) Run(interval time.Duration, repositories []string, releases ch
 				)
 			}
 		}
+
+		if c.persistenceFile != "" {
+			b, _ := json.Marshal(c.releases)
+			if err := ioutil.WriteFile(c.persistenceFile, b, 0644); err != nil {
+				level.Warn(c.logger).Log("msg", "write persistence file error", "error", err)
+			}
+		}
+
 		time.Sleep(interval)
 	}
 }
@@ -134,4 +148,15 @@ func (c *Checker) query(owner, name string) (Repository, error) {
 			PublishedAt: latestRelease.PublishedAt.Time,
 		},
 	}, nil
+}
+
+func (c *Checker) loadPersistenceFile() {
+	b, err := ioutil.ReadFile(c.persistenceFile)
+	if err != nil {
+		level.Warn(c.logger).Log("msg", "load persistence file error", "error", err)
+		return
+	}
+	if err := json.Unmarshal(b, &c.releases); err != nil {
+		level.Warn(c.logger).Log("msg", "unmarshal persistence file error", "error", err)
+	}
 }

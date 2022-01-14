@@ -1,17 +1,18 @@
-version: '2'
-
+version: '3.8'
 services:
   github-releases-notifier:
     restart: always
-    image: justwatch/github-releases-notifier
+    image: wei840222/github-releases-notifier
     environment:
-      - GITHUB_TOKEN=XXX
-      - SLACK_HOOK=https://hooks.slack.com/services/T02MASDF7/B6WERHYRZ/XXX
+    - GITHUB_TOKEN=XXX
+    - SLACK_HOOK=https://hooks.slack.com/services/T02MASDF7/B6WERHYRZ/XXX
+    - INTERVAL=1m
+    - PERSISTENCE_FILE=/github-releases-notifier.json
     command:
-      - '-r=golang/go'
-      - '-r=justwatchcom/elasticsearch_exporter'
-      - '-r=justwatchcom/gopass'
-      - '-r=justwatchcom/sql_exporter'
-      - '-r=kubernetes/minikube'
-      - '-r=prometheus/prometheus'
-      - '-r=shurcooL/githubql'
+    - -r=golang/go
+    - -r=justwatchcom/elasticsearch_exporter
+    - -r=justwatchcom/gopass
+    - -r=justwatchcom/sql_exporter
+    - -r=kubernetes/minikube
+    - -r=prometheus/prometheus
+    - -r=shurcooL/githubql
