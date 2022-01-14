@@ -25,4 +25,4 @@ jobs:
         context: .
         dockerfile: Dockerfile
         repository: wei840222/github-releases-notifier
-        tag_with_ref: true
+        tag: ${{ env.GITHUB_REF_NAME }}
