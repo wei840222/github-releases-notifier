@@ -18,6 +18,9 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Tag
+      id: docker-tag
+      uses: yuya-takeyama/docker-tag-from-github-ref-action@v1
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
@@ -25,4 +28,4 @@ jobs:
         context: .
         dockerfile: Dockerfile
         repository: wei840222/github-releases-notifier
-        tag: ${{ env.GITHUB_REF_NAME }}
+        tag: ${{ steps.docker-tag.outputs.tag }}
