@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: github-releases-notifier
@@ -32,6 +32,8 @@ spec:
           value: 1m
         - name: PERSISTENCE_FILE
           value: /github-releases-notifier.json
+        command:
+        - github-releases-notifier
         args:
         - -r=golang/go
         - -r=justwatchcom/elasticsearch_exporter
