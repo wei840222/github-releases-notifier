@@ -19,6 +19,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     - name: Gen image tag
+      id: gen_tags
       run: |
         if [[ $GITHUB_REF == 'refs/tags/'* ]]; then
           TAGS='["wei840222/github-releases-notifier:latest","wei840222/github-releases-notifier:'${GITHUB_REF/refs\/tags\//}'"]'
