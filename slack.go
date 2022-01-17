@@ -23,18 +23,29 @@ func (s *SlackSender) Send(repository Repository) error {
 		IconEmoji: ":github:",
 		Blocks: &slack.Blocks{
 			BlockSet: []slack.Block{
-				&slack.TextBlockObject{
-					Type: slack.MarkdownType,
-					Text: fmt.Sprintf(
-						"<%s|%s/%s>\n<%s|%s>\n%s\n%s",
-						repository.URL.String(),
-						repository.Owner,
-						repository.Name,
-						repository.Release.URL.String(),
-						repository.Release.Tag,
-						repository.Release.Name,
-						repository.Release.Description,
-					),
+				&slack.SectionBlock{
+					Type: slack.MBTSection,
+					Text: &slack.TextBlockObject{
+						Type: slack.MarkdownType,
+						Text: fmt.Sprintf(
+							"*Repo:* <%s|%s/%s>\n*Tag:* <%s|%s>",
+							repository.URL.String(),
+							repository.Owner,
+							repository.Name,
+							repository.Release.URL.String(),
+							repository.Release.Tag,
+						),
+					},
+				},
+				&slack.DividerBlock{
+					Type: slack.MBTDivider,
+				},
+				&slack.SectionBlock{
+					Type: slack.MBTSection,
+					Text: &slack.TextBlockObject{
+						Type: slack.MarkdownType,
+						Text: fmt.Sprintf("*%s*\n```%s```", repository.Release.Name, repository.Release.Description),
+					},
 				},
 			},
 		},
