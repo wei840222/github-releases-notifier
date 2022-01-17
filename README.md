@@ -1,8 +1,8 @@
 # github-releases-notifier
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/wei840222/github-releases-notifier)](https://goreportcard.com/report/github.com/wei840222/github-releases-notifier)
-[![Build Status](https://github.com/wei840222/github-releases-notifier/actions/workflows/docker-image.yml/badge.svg)](https://github.com/wei840222/github-releases-notifier/actions/workflows/docker-image.yml/badge.svg)
 [![Docker Pulls](https://img.shields.io/docker/pulls/wei840222/github-releases-notifier.svg?maxAge=604800)](https://hub.docker.com/r/wei840222/github-releases-notifier)
+![Build Status](https://github.com/wei840222/github-releases-notifier/actions/workflows/docker-image.yml/badge.svg)
 
 Receive Slack notifications if a new release of your favorite software is available on GitHub.
 
