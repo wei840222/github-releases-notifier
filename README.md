@@ -1,8 +1,8 @@
 # github-releases-notifier
 
-[![Build Status](https://travis-ci.org/justwatchcom/github-releases-notifier.svg?branch=master)](https://travis-ci.org/justwatchcom/github-releases-notifier)
-[![Go Report Card](https://goreportcard.com/badge/github.com/justwatchcom/github-releases-notifier)](https://goreportcard.com/report/github.com/justwatchcom/github-releases-notifier)
-[![Docker Pulls](https://img.shields.io/docker/pulls/justwatch/github-releases-notifier.svg?maxAge=604800)](https://hub.docker.com/r/justwatch/github-releases-notifier)
+[![Go Report Card](https://goreportcard.com/badge/github.com/wei840222/github-releases-notifier)](https://goreportcard.com/report/github.com/wei840222/github-releases-notifier)
+[![Build Status](https://github.com/wei840222/github-releases-notifier/actions/workflows/docker-image.yml/badge.svg)](https://github.com/wei840222/github-releases-notifier/actions/workflows/docker-image.yml/badge.svg)
+[![Docker Pulls](https://img.shields.io/docker/pulls/wei840222/github-releases-notifier.svg?maxAge=604800)](https://hub.docker.com/r/wei840222/github-releases-notifier)
 
 Receive Slack notifications if a new release of your favorite software is available on GitHub.
 
@@ -20,7 +20,7 @@ To watch repositories simply add them to the list of arguments `-r=kubernetes/ku
 #### Docker
 
 ```
-docker run --rm -e GITHUB_TOKEN=XXX -e SLACK_HOOK=https://hooks.slack.com/... justwatch/github-releases-notifier -r=kubernetes/kubernetes
+docker run --rm -e GITHUB_TOKEN=XXX -e SLACK_HOOK=https://hooks.slack.com/... wei840222/github-releases-notifier -r=kubernetes/kubernetes
 ```
 
 #### docker-compose
