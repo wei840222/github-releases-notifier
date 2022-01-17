@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/url"
 	"strings"
 	"time"
 
@@ -12,6 +13,41 @@ import (
 	"github.com/go-kit/log/level"
 	githubql "github.com/shurcooL/githubql"
 )
+
+// Release of a repository tagged via GitHub.
+type Release struct {
+	ID          string
+	Name        string
+	Description string
+	Tag         string
+	URL         url.URL
+	PublishedAt time.Time
+}
+
+// IsReleaseCandidate returns true if the release name hints at an RC release.
+func (r Release) IsReleaseCandidate() bool {
+	return strings.Contains(strings.ToLower(r.Name), "-rc")
+}
+
+// IsBeta returns true if the release name hints at a beta version release.
+func (r Release) IsBeta() bool {
+	return strings.Contains(strings.ToLower(r.Name), "beta")
+}
+
+// IsNonstable returns true if one of the non-stable release-checking functions return true.
+func (r Release) IsNonstable() bool {
+	return r.IsReleaseCandidate() || r.IsBeta()
+}
+
+// Repository on GitHub.
+type Repository struct {
+	ID          string
+	Name        string
+	Owner       string
+	Description string
+	URL         url.URL
+	Release     Release
+}
 
 // Checker has a githubql client to run queries and also knows about
 // the current repositories releases to compare against.
@@ -144,6 +180,7 @@ func (c *Checker) query(owner, name string) (Repository, error) {
 			ID:          releaseID,
 			Name:        string(latestRelease.Name),
 			Description: string(latestRelease.Description),
+			Tag:         strings.Split(latestRelease.URL.URL.Path, "/")[len(strings.Split(latestRelease.URL.URL.Path, "/"))-1],
 			URL:         *latestRelease.URL.URL,
 			PublishedAt: latestRelease.PublishedAt.Time,
 		},
