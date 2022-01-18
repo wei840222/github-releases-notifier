@@ -82,6 +82,7 @@ func main() {
 			level.Debug(logger).Log("msg", "not notifying about non-stable version", "version", repository.Release.Name)
 			continue
 		}
+		level.Debug(logger).Log("msg", "got new release", "owner", repository.Owner, "repository", repository.Name, "tag", repository.Release.Tag)
 		if err := slack.Send(repository); err != nil {
 			level.Warn(logger).Log(
 				"msg", "failed to send release to messenger",
