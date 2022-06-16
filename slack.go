@@ -21,6 +21,13 @@ func (s *SlackSender) Send(repository Repository) error {
 	return slack.PostWebhookContext(ctx, s.Hook, &slack.WebhookMessage{
 		Username:  "GitHub Releases",
 		IconEmoji: ":github:",
+		Text: fmt.Sprintf(
+			"%s/%s new release: %s, tag: %s",
+			repository.Owner,
+			repository.Name,
+			repository.Release.Name,
+			repository.Release.Tag,
+		),
 		Blocks: &slack.Blocks{
 			BlockSet: []slack.Block{
 				&slack.SectionBlock{
