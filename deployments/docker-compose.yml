@@ -2,10 +2,10 @@ version: '3.8'
 services:
   github-releases-notifier:
     restart: always
-    image: wei840222/github-releases-notifier
+    image: wei840222/github-releases-notifier:1.1.4
     environment:
     - GITHUB_TOKEN=XXX
-    - SLACK_HOOK=https://hooks.slack.com/services/T02MASDF7/B6WERHYRZ/XXX
+    - SLACK_HOOK=https://hooks.slack.com/services/XXXXXXX/XXXXXXX/XXX
     - INTERVAL=1m
     - PERSISTENCE_FILE=/github-releases-notifier.json
     command:

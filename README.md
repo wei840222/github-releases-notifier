@@ -19,7 +19,7 @@ To watch repositories simply add them to the list of arguments `-r=kubernetes/ku
 #### Docker
 
 ```
-docker run --rm -e GITHUB_TOKEN=XXX -e SLACK_HOOK=https://hooks.slack.com/... wei840222/github-releases-notifier:1.1.3 -r=kubernetes/kubernetes
+docker run --rm -e GITHUB_TOKEN=XXX -e SLACK_HOOK=https://hooks.slack.com/... wei840222/github-releases-notifier:1.1.4 -r=kubernetes/kubernetes
 ```
 
 #### docker-compose

@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: github-releases-notifier
-        image: wei840222/github-releases-notifier
+        image: wei840222/github-releases-notifier:1.1.4
+        imagePullPolicy: IfNotPresent
         env:
         - name: GITHUB_TOKEN
           valueFrom:
